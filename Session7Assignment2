@@ -1,0 +1,332 @@
+
+CREATE DATABASE olympicsCeremony;
+USE olympicsCeremony;
+
+CREATE TABLE olympics
+(
+athlete STRING,
+age INT,
+country STRING,
+year STRING,
+closingDate STRING,
+sport STRING,
+gold INT,
+silver INT,
+bronze INT,
+total INT
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+    "separatorChar" = "\t",
+    "quoteChar"     = "'",
+    "escapeChar"    = "\\"
+)
+STORED AS TEXTFILE
+TBLPROPERTIES ("skip.header.line.count"="1")
+;
+
+LOAD DATA LOCAL INPATH '/home/acadgild/Downloads/olympix_data.csv'
+INTO TABLE olympics;
+=================================================================
+1.Query to find the Number medals won by each country in swimming
+================================================================
+SELECT COUNT(CAST(total as INT)),country 
+FROM olympics where sport="Swimming"
+GROUP BY country;
+================================================================
+1	Argentina
+90	Australia
+2	Austria
+1	Belarus
+7	Brazil
+5	Canada
+29	China
+1	Costa Rica
+1	Croatia
+1	Denmark
+26	France
+27	Germany
+9	Great Britain
+7	Hungary
+13	Italy
+30	Japan
+1	Lithuania
+32	Netherlands
+2	Norway
+1	Poland
+4	Romania
+19	Russia
+1	Serbia
+1	Slovakia
+1	Slovenia
+8	South Africa
+2	South Korea
+2	Spain
+7	Sweden
+1	Trinidad and Tobago
+2	Tunisia
+4	Ukraine
+144	United States
+2	Zimbabwe
+Time taken: 83.542 seconds, Fetched: 34 row(s)
+
+================================================================= 
+
+2.Query to find the number of Gold medals won by India every year.
+==================================================================
+SELECT COUNT(CAST(gold as INT)),year
+FROM olympics 
+where country="India"
+GROUP BY year;
+==================================================================
+Total MapReduce CPU Time Spent: 5 seconds 130 msec
+OK
+1	2000
+1	2004
+3	2008
+6	2012
+Time taken: 68.756 seconds, Fetched: 4 row(s)
+
+===================================================================
+
+3.Query to find the total number of medals won by each country.
+
+===================================================================
+SELECT COUNT(cast(total as INT)),country 
+FROM olympics 
+GROUP BY country ;
+=================================================================== 
+0	NULL
+2	Afghanistan
+8	Algeria
+139	Argentina
+10	Armenia
+519	Australia
+70	Austria
+25	Azerbaijan
+23	Bahamas
+1	Bahrain
+1	Barbados
+92	Belarus
+18	Belgium
+1	Botswana
+220	Brazil
+36	Bulgaria
+17	Cameroon
+350	Canada
+20	Chile
+450	China
+20	Chinese Taipei
+13	Colombia
+1	Costa Rica
+76	Croatia
+188	Cuba
+1	Cyprus
+75	Czech Republic
+89	Denmark
+5	Dominican Republic
+1	Ecuador
+8	Egypt
+1	Eritrea
+16	Estonia
+24	Ethiopia
+112	Finland
+286	France
+1	Gabon
+21	Georgia
+552	Germany
+296	Great Britain
+59	Greece
+1	Grenada
+1	Guatemala
+3	Hong Kong
+132	Hungary
+15	Iceland
+11	India
+22	Indonesia
+24	Iran
+7	Ireland
+3	Israel
+305	Italy
+61	Jamaica
+259	Japan
+42	Kazakhstan
+38	Kenya
+2	Kuwait
+3	Kyrgyzstan
+17	Latvia
+30	Lithuania
+1	Macedonia
+3	Malaysia
+1	Mauritius
+38	Mexico
+5	Moldova
+10	Mongolia
+14	Montenegro
+10	Morocco
+1	Mozambique
+286	Netherlands
+51	New Zealand
+39	Nigeria
+21	North Korea
+158	Norway
+1	Panama
+17	Paraguay
+73	Poland
+9	Portugal
+2	Puerto Rico
+3	Qatar
+97	Romania
+706	Russia
+5	Saudi Arabia
+31	Serbia
+38	Serbia and Montenegro
+6	Singapore
+33	Slovakia
+24	Slovenia
+22	South Africa
+274	South Korea
+194	Spain
+1	Sri Lanka
+1	Sudan
+166	Sweden
+87	Switzerland
+1	Syria
+3	Tajikistan
+18	Thailand
+1	Togo
+16	Trinidad and Tobago
+3	Tunisia
+27	Turkey
+1	Uganda
+135	Ukraine
+1	United Arab Emirates
+1098	United States
+1	Uruguay
+19	Uzbekistan
+4	Venezuela
+2	Vietnam
+2	Zimbabwe
+Time taken: 116.765 seconds, Fetched: 111 row
+=============================================================
+
+4.Query to find the number of Gold medals won by each country
+=============================================================
+
+SELECT COUNT(CAST(gold as INT)),country
+FROM olympics 
+GROUP BY country;
+========================================================
+2	Afghanistan
+8	Algeria
+139	Argentina
+10	Armenia
+519	Australia
+70	Austria
+25	Azerbaijan
+23	Bahamas
+1	Bahrain
+1	Barbados
+92	Belarus
+18	Belgium
+1	Botswana
+220	Brazil
+36	Bulgaria
+17	Cameroon
+350	Canada
+20	Chile
+450	China
+20	Chinese Taipei
+13	Colombia
+1	Costa Rica
+76	Croatia
+188	Cuba
+1	Cyprus
+75	Czech Republic
+89	Denmark
+5	Dominican Republic
+1	Ecuador
+8	Egypt
+1	Eritrea
+16	Estonia
+24	Ethiopia
+112	Finland
+286	France
+1	Gabon
+21	Georgia
+552	Germany
+296	Great Britain
+59	Greece
+1	Grenada
+1	Guatemala
+3	Hong Kong
+132	Hungary
+15	Iceland
+11	India
+22	Indonesia
+24	Iran
+7	Ireland
+3	Israel
+305	Italy
+61	Jamaica
+259	Japan
+42	Kazakhstan
+38	Kenya
+2	Kuwait
+3	Kyrgyzstan
+17	Latvia
+30	Lithuania
+1	Macedonia
+3	Malaysia
+1	Mauritius
+38	Mexico
+5	Moldova
+10	Mongolia
+14	Montenegro
+10	Morocco
+1	Mozambique
+286	Netherlands
+51	New Zealand
+39	Nigeria
+21	North Korea
+158	Norway
+1	Panama
+17	Paraguay
+73	Poland
+9	Portugal
+2	Puerto Rico
+3	Qatar
+97	Romania
+706	Russia
+5	Saudi Arabia
+31	Serbia
+38	Serbia and Montenegro
+6	Singapore
+33	Slovakia
+24	Slovenia
+22	South Africa
+274	South Korea
+194	Spain
+1	Sri Lanka
+1	Sudan
+166	Sweden
+87	Switzerland
+1	Syria
+3	Tajikistan
+18	Thailand
+1	Togo
+16	Trinidad and Tobago
+3	Tunisia
+27	Turkey
+1	Uganda
+135	Ukraine
+1	United Arab Emirates
+1098	United States
+1	Uruguay
+19	Uzbekistan
+4	Venezuela
+2	Vietnam
+2	Zimbabwe
+Time taken: 62.682 seconds, Fetched: 111 row(s)
+
+
